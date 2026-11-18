@@ -4,6 +4,7 @@ import ProtectedRoute from './auth/ProtectedRoute.jsx';
 import AppLayout from './components/AppLayout.jsx';
 import LoginPage from './pages/LoginPage.jsx';
 import Dashboard from './pages/Dashboard.jsx';
+import Clientes from './pages/Clientes.jsx';
 
 // Qué hace: Ruta del login.
 // Qué usa: useAuth y Navigate.
@@ -27,6 +28,7 @@ export default function App() {
                     <Route element={<ProtectedRoute />}>
                         <Route element={<AppLayout />}>
                             <Route path="/dashboard" element={<Dashboard />} />
+                            <Route path="/clientes" element={<Clientes />} />
                         </Route>
                     </Route>
                     <Route path="/" element={<Navigate to="/dashboard" replace />} />
