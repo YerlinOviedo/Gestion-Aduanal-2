@@ -4,6 +4,7 @@ import { useAuth } from '../auth/AuthContext.jsx';
 // Opciones del menú. Cada módulo agrega aquí su ruta, nombre e ícono.
 const menu = [
     { ruta: '/dashboard', nombre: 'Dashboard', icono: 'bi-speedometer2' },
+    { ruta: '/clientes', nombre: 'Clientes', icono: 'bi-building' },
 ];
 
 // Qué hace: Estructura común de las pantallas privadas: menú lateral, barra superior y contenido.
