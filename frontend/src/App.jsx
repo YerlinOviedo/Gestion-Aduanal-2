@@ -1,17 +1,38 @@
-// Qué hace: Componente principal de la aplicación.
-// Qué usa: Bootstrap para los estilos.
-// Cómo lo hace: Por ahora solo muestra una pantalla de bienvenida; en los siguientes commits se
-//     agregan el login, las rutas protegidas y los módulos.
+import { BrowserRouter, Navigate, Route, Routes } from 'react-router-dom';
+import { AuthProvider, useAuth } from './auth/AuthContext.jsx';
+import ProtectedRoute from './auth/ProtectedRoute.jsx';
+import AppLayout from './components/AppLayout.jsx';
+import LoginPage from './pages/LoginPage.jsx';
+import Dashboard from './pages/Dashboard.jsx';
+
+// Qué hace: Ruta del login.
+// Qué usa: useAuth y Navigate.
+// Cómo lo hace: Si el usuario ya inició sesión se envía al inicio; si no, se muestra el login.
+function LoginRoute() {
+    const { isAuthenticated } = useAuth();
+    return isAuthenticated ? <Navigate to="/" replace /> : <LoginPage />;
+}
+
+// Qué hace: Se definen todas las rutas de la aplicación (SPA).
+// Qué usa: AuthProvider, BrowserRouter, Routes y Route de React Router.
+// Cómo lo hace: AuthProvider comparte la sesión con todas las páginas. Las rutas privadas van
+//     dentro de ProtectedRoute (exige sesión) y de AppLayout (menú y barra superior).
+//     Cualquier ruta desconocida se envía al dashboard.
 export default function App() {
     return (
-        <main className="login-screen">
-            <div className="card login-card shadow-lg border-0">
-                <div className="card-body p-5 text-center">
-                    <div className="brand-icon"><i className="bi bi-box-seam" /></div>
-                    <h1 className="h3 fw-bold">Aduana Caldera</h1>
-                    <p className="text-secondary mb-0">Frontend React de la API de trámites aduanales</p>
-                </div>
-            </div>
-        </main>
+        <AuthProvider>
+            <BrowserRouter>
+                <Routes>
+                    <Route path="/login" element={<LoginRoute />} />
+                    <Route element={<ProtectedRoute />}>
+                        <Route element={<AppLayout />}>
+                            <Route path="/dashboard" element={<Dashboard />} />
+                        </Route>
+                    </Route>
+                    <Route path="/" element={<Navigate to="/dashboard" replace />} />
+                    <Route path="*" element={<Navigate to="/dashboard" replace />} />
+                </Routes>
+            </BrowserRouter>
+        </AuthProvider>
     );
 }

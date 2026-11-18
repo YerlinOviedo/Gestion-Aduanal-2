@@ -1,0 +1,70 @@
+import { NavLink, Outlet, useNavigate } from 'react-router-dom';
+import { useAuth } from '../auth/AuthContext.jsx';
+
+// Opciones del menú. Cada módulo agrega aquí su ruta, nombre e ícono.
+const menu = [
+    { ruta: '/dashboard', nombre: 'Dashboard', icono: 'bi-speedometer2' },
+];
+
+// Qué hace: Estructura común de las pantallas privadas: menú lateral, barra superior y contenido.
+// Qué usa: NavLink y Outlet de React Router, useAuth para el usuario, el rol y el logout.
+// Cómo lo hace: El menú se arma recorriendo la lista "menu"; NavLink marca como activa la opción
+//     de la ruta actual. En el centro, Outlet dibuja la página del módulo sin recargar el
+//     navegador. En celulares el menú lateral se oculta y se muestran botones arriba.
+export default function AppLayout() {
+    const { username, rol, logout } = useAuth();
+    const navigate = useNavigate();
+
+    const exit = async () => {
+        await logout();
+        navigate('/login', { replace: true });
+    };
+
+    return (
+        <div className="app-shell">
+            <aside className="app-sidebar">
+                <div className="sidebar-brand">
+                    <i className="bi bi-box-seam me-2" />
+                    Aduana Caldera
+                </div>
+                <p className="sidebar-label">OPERACIÓN</p>
+                <nav className="nav flex-column gap-1" aria-label="Menú principal">
+                    {menu.map(opcion => (
+                        <NavLink key={opcion.ruta} to={opcion.ruta}
+                            className={({ isActive }) => `sidebar-link ${isActive ? 'active' : ''}`}>
+                            <i className={`bi ${opcion.icono}`} />
+                            {opcion.nombre}
+                        </NavLink>
+                    ))}
+                </nav>
+                <div className="sidebar-bottom">React + Django REST Framework API</div>
+            </aside>
+            <div className="app-main">
+                <header className="app-topbar">
+                    <span className="d-md-none fw-bold text-primary">
+                        <i className="bi bi-box-seam me-2" /> Aduana
+                    </span>
+                    <div className="ms-auto d-flex align-items-center gap-3">
+                        <span className="small text-secondary">
+                            <i className="bi bi-person-circle me-2" />
+                            {username}
+                            <span className="badge text-bg-light border ms-2">{rol}</span>
+                        </span>
+                        <button className="btn btn-outline-danger btn-sm" onClick={exit}>
+                            <i className="bi bi-box-arrow-right me-1" />
+                            Salir
+                        </button>
+                    </div>
+                </header>
+                <div className="d-md-none px-3 pt-3 d-flex gap-2 flex-wrap">
+                    {menu.map(opcion => (
+                        <NavLink key={opcion.ruta} to={opcion.ruta} className="btn btn-outline-primary btn-sm">
+                            {opcion.nombre}
+                        </NavLink>
+                    ))}
+                </div>
+                <main className="container-fluid p-3 p-md-4 p-lg-5"><Outlet /></main>
+            </div>
+        </div>
+    );
+}
