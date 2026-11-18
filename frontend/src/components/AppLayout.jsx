@@ -5,6 +5,8 @@ import { useAuth } from '../auth/AuthContext.jsx';
 const menu = [
     { ruta: '/dashboard', nombre: 'Dashboard', icono: 'bi-speedometer2' },
     { ruta: '/clientes', nombre: 'Clientes', icono: 'bi-building' },
+    { ruta: '/transportistas', nombre: 'Transportistas', icono: 'bi-truck' },
+    { ruta: '/cargas', nombre: 'Cargas', icono: 'bi-box' },
 ];
 
 // Qué hace: Estructura común de las pantallas privadas: menú lateral, barra superior y contenido.
