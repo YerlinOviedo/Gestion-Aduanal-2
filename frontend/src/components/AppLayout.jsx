@@ -7,6 +7,7 @@ const menu = [
     { ruta: '/clientes', nombre: 'Clientes', icono: 'bi-building' },
     { ruta: '/transportistas', nombre: 'Transportistas', icono: 'bi-truck' },
     { ruta: '/cargas', nombre: 'Cargas', icono: 'bi-box' },
+    { ruta: '/tramites', nombre: 'Trámites', icono: 'bi-file-earmark-text' },
 ];
 
 // Qué hace: Estructura común de las pantallas privadas: menú lateral, barra superior y contenido.
