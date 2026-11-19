@@ -8,6 +8,7 @@ import Clientes from './pages/Clientes.jsx';
 import Transportistas from './pages/Transportistas.jsx';
 import Cargas from './pages/Cargas.jsx';
 import Tramites from './pages/Tramites.jsx';
+import Cobros from './pages/Cobros.jsx';
 
 // Qué hace: Ruta del login.
 // Qué usa: useAuth y Navigate.
@@ -35,6 +36,7 @@ export default function App() {
                             <Route path="/transportistas" element={<Transportistas />} />
                             <Route path="/cargas" element={<Cargas />} />
                             <Route path="/tramites" element={<Tramites />} />
+                            <Route path="/cobros" element={<Cobros />} />
                         </Route>
                     </Route>
                     <Route path="/" element={<Navigate to="/dashboard" replace />} />
