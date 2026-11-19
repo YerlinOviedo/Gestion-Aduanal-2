@@ -11,6 +11,12 @@ const menu = [
     { ruta: '/cobros', nombre: 'Cobros', icono: 'bi-cash-coin' },
 ];
 
+// Opciones de seguridad. La pantalla de usuarios solo la puede usar el Administrador;
+// con los otros roles Django responde 403 y la pantalla lo muestra.
+const seguridad = [
+    { ruta: '/usuarios', nombre: 'Usuarios', icono: 'bi-people' },
+];
+
 // Qué hace: Estructura común de las pantallas privadas: menú lateral, barra superior y contenido.
 // Qué usa: NavLink y Outlet de React Router, useAuth para el usuario, el rol y el logout.
 // Cómo lo hace: El menú se arma recorriendo la lista "menu"; NavLink marca como activa la opción
@@ -42,6 +48,16 @@ export default function AppLayout() {
                         </NavLink>
                     ))}
                 </nav>
+                <p className="sidebar-label mt-3">SEGURIDAD</p>
+                <nav className="nav flex-column gap-1" aria-label="Menú de seguridad">
+                    {seguridad.map(opcion => (
+                        <NavLink key={opcion.ruta} to={opcion.ruta}
+                            className={({ isActive }) => `sidebar-link ${isActive ? 'active' : ''}`}>
+                            <i className={`bi ${opcion.icono}`} />
+                            {opcion.nombre}
+                        </NavLink>
+                    ))}
+                </nav>
                 <div className="sidebar-bottom">React + Django REST Framework API</div>
             </aside>
             <div className="app-main">
@@ -62,7 +78,7 @@ export default function AppLayout() {
                     </div>
                 </header>
                 <div className="d-md-none px-3 pt-3 d-flex gap-2 flex-wrap">
-                    {menu.map(opcion => (
+                    {[...menu, ...seguridad].map(opcion => (
                         <NavLink key={opcion.ruta} to={opcion.ruta} className="btn btn-outline-primary btn-sm">
                             {opcion.nombre}
                         </NavLink>

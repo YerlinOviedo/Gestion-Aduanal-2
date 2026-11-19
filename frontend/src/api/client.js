@@ -18,6 +18,21 @@ api.interceptors.request.use(config => {
     return config;
 });
 
+// Qué hace: Se maneja de forma global la respuesta 401 (token inválido, vencido o revocado).
+// Qué usa: Un interceptor de respuestas de axios.
+// Cómo lo hace: Si Django responde 401 y había una sesión guardada, se borra la sesión del
+//     navegador y se envía al login con el aviso "sesion=expirada". Los demás errores siguen
+//     su camino para que cada pantalla muestre su mensaje.
+api.interceptors.response.use(respuesta => respuesta, error => {
+    if (error.response?.status === 401 && sessionStorage.getItem('aduana_token')) {
+        sessionStorage.removeItem('aduana_token');
+        sessionStorage.removeItem('aduana_username');
+        sessionStorage.removeItem('aduana_rol');
+        window.location.assign('/login?sesion=expirada');
+    }
+    return Promise.reject(error);
+});
+
 // Qué hace: Se quitan los parámetros vacíos antes de enviarlos a la API.
 // Qué usa: Object.entries y filter.
 // Cómo lo hace: Se dejan solo los valores que tienen algo. Es necesario porque Django responde

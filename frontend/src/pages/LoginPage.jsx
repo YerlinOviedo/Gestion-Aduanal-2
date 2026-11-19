@@ -1,14 +1,17 @@
 import { useState } from 'react';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, useSearchParams } from 'react-router-dom';
 import { useAuth } from '../auth/AuthContext.jsx';
 
 // Qué hace: Pantalla de inicio de sesión.
 // Qué usa: useState para el formulario, useAuth para login y useNavigate para redirigir.
 // Cómo lo hace: Al enviar el formulario se llama a login(); si Django acepta las credenciales se
-//     va al dashboard, y si no se muestra el mensaje de error.
+//     va al dashboard, y si no se muestra el mensaje de error. Si se llegó aquí por un 401
+//     (?sesion=expirada) se muestra un aviso.
 export default function LoginPage() {
     const { login } = useAuth();
     const navigate = useNavigate();
+    const [parametros] = useSearchParams();
+    const sesionExpirada = parametros.get('sesion') === 'expirada';
     const [username, setUsername] = useState('');
     const [password, setPassword] = useState('');
     const [error, setError] = useState('');
@@ -37,6 +40,11 @@ export default function LoginPage() {
                     </div>
                     <h1 className="h3 fw-bold text-center">Aduana Caldera</h1>
                     <p className="text-secondary text-center mb-4">Inicio de sesión</p>
+                    {sesionExpirada && !error && (
+                        <div className="alert alert-warning" role="status">
+                            Su sesión expiró o el token fue revocado (401). Inicie sesión de nuevo.
+                        </div>
+                    )}
                     {error && (
                         <div className="alert alert-danger" role="alert">
                             {error}
