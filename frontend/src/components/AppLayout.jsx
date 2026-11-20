@@ -65,15 +65,15 @@ export default function AppLayout() {
                     <span className="d-md-none fw-bold text-primary">
                         <i className="bi bi-box-seam me-2" /> Aduana
                     </span>
-                    <div className="ms-auto d-flex align-items-center gap-3">
-                        <span className="small text-secondary">
-                            <i className="bi bi-person-circle me-2" />
+                    <div className="ms-auto d-flex align-items-center gap-2 gap-md-3">
+                        <span className="small text-secondary text-nowrap">
+                            <i className="bi bi-person-circle me-1 me-md-2" />
                             {username}
                             <span className="badge text-bg-light border ms-2">{rol}</span>
                         </span>
-                        <button className="btn btn-outline-danger btn-sm" onClick={exit}>
-                            <i className="bi bi-box-arrow-right me-1" />
-                            Salir
+                        <button className="btn btn-outline-danger btn-sm text-nowrap" onClick={exit} aria-label="Salir">
+                            <i className="bi bi-box-arrow-right" />
+                            <span className="d-none d-sm-inline ms-1">Salir</span>
                         </button>
                     </div>
                 </header>

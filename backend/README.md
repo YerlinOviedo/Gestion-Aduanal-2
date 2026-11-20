@@ -221,9 +221,22 @@ Los listados se paginan con el `Paginator` de Django, 5 registros por página (`
 
 ## 9. Limitaciones conocidas
 
-- No hay frontend; la API se usa con Postman (así lo indica el enunciado).
+- La interfaz web del Proyecto 2 está en [`frontend/`](../frontend/README.md); la API también se puede probar con Postman.
 - Los permisos de instituciones (DUA, SFE, Ministerio de Salud…) se registran manualmente; no hay conexión real con TICA ni con otros sistemas del gobierno.
 - Los montos se manejan en colones y no se calculan impuestos automáticamente.
 - El código de trámite usa el año de creación en hora UTC; un trámite creado entre las 6 p. m. y medianoche del 31 de diciembre quedaría con el año siguiente.
 - No hay límite de intentos de inicio de sesión ni expiración automática de tokens (el token se elimina con `logout`).
 - El servidor de desarrollo (`runserver`) no es apto para producción.
+
+## 10. Frontend React (Proyecto 2)
+
+La carpeta [`frontend/`](../frontend/README.md) contiene la aplicación React (Vite + Bootstrap 5) que consume esta API. Para ejecutarla:
+
+```bash
+cd ../frontend
+npm install
+copy .env.example .env      # Linux / macOS: cp .env.example .env
+npm run dev
+```
+
+Para que el navegador pueda llamar a la API desde `http://localhost:5173`, el backend usa **django-cors-headers** (`CORS_ALLOWED_ORIGINS` en el `.env`). Instalación, usuarios de prueba, seguridad y limitaciones del frontend: [`frontend/README.md`](../frontend/README.md).
